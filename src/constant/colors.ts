@@ -4,4 +4,5 @@ export const COLORS = {
     BORDER: '#9D9C9C',
     GRAY: '#757575',
     GREEN: '#008000',
+    RED: '#FF2C2C',
 }

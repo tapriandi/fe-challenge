@@ -20,16 +20,24 @@ import {Text} from '../../components/Atoms';
 import {COLORS} from '../../constant';
 import {Gap, Star} from '../../assets/Icon';
 import {calculateDiscountedPrice} from '../../utils/common';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
+import RouteName from '../../navigation/RouteName';
+import {RootStackParams} from '../../navigation/types';
 
 const ProductScreen = () => {
   const {data: products, isLoading, error} = useGetProductsQuery();
-  const dispatch = useDispatch();
+
+  type ProductScreenNavigationProp = NavigationProp<
+    RootStackParams,
+    RouteName.ProductDetail
+  >;
+  const navigation = useNavigation<ProductScreenNavigationProp>();
 
   const productList = useSelector(productSelectors.listProductState);
   const cartCount = useSelector(cartSelectors.getCartCount);
 
-  const handleAddToCart = (product: Product) => {
-    dispatch(addToCart(product));
+  const goToDetail = (product: Product) => {
+    navigation.navigate(RouteName.ProductDetail, {product});
   };
 
   if (isLoading) return <Text>Loading...</Text>;
@@ -48,7 +56,7 @@ const ProductScreen = () => {
           keyExtractor={item => item.id.toString()}
           renderItem={({item}) => (
             <TouchableOpacity
-              onPress={() => handleAddToCart(item)}
+              onPress={() => goToDetail(item)}
               style={styles.cardProduct}>
               <Image
                 source={{uri: item.thumbnail}}
