@@ -1,9 +1,7 @@
-import React, {FC, ReactNode} from 'react';
+import React, {FC} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {styles} from './styles';
 import {useNavigation} from '@react-navigation/native';
-import {useSelector} from 'react-redux';
-import {RootState} from '../../../services/store';
 import RouteName from '../../../navigation/RouteName';
 import {ArrowLeft, Cart} from '../../../assets/Icon';
 
@@ -22,7 +20,6 @@ const Header: FC<Props> = ({
 }) => {
   const navigation = useNavigation();
 
-
   return (
     <View style={styles.container}>
       {back && (
@@ -32,10 +29,10 @@ const Header: FC<Props> = ({
       )}
 
       <Text style={styles.headerTitle}>{headerTitle}</Text>
-      {cartIcon && (
+      {cartIcon ? (
         <TouchableOpacity
           style={styles.cartIconContainer}
-          onPress={() => navigation.navigate(RouteName.Cart)}>
+          onPress={() => navigation.navigate(RouteName.Cart as never)}>
           <Cart />
           {cartCount > 0 && (
             <View style={styles.cartBadge}>
@@ -43,6 +40,8 @@ const Header: FC<Props> = ({
             </View>
           )}
         </TouchableOpacity>
+      ) : (
+        <View style={{width: 32}}></View>
       )}
     </View>
   );

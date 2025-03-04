@@ -1,11 +1,7 @@
 import * as React from 'react';
 import Svg, {Path, SvgProps} from 'react-native-svg';
 
-const ArrowLeft = ({
-  width = 20,
-  height = 20,
-  fill = '#111111',
-}: SvgProps) => {
+const ArrowLeft = ({width = 20, height = 20, fill = '#111111'}: SvgProps) => {
   return (
     <Svg width={width} height={height} viewBox="0 0 20 20" fill="none">
       <Path

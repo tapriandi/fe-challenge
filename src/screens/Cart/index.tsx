@@ -1,33 +1,75 @@
 import React from 'react';
-import { View, Text, FlatList, Button } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../../services/store';
-import { clearCart, removeFromCart } from '../../services/Cart/cartSlice';
+import {View, Text, FlatList, SafeAreaView, Image} from 'react-native';
+import {useSelector, useDispatch} from 'react-redux';
+import {RootState} from '../../services/store';
+import {
+  addToCart,
+  decreaseCart,
+  removeFromCart,
+} from '../../services/Cart/cartSlice';
+import {Header} from '../../components/Molecules';
+import {Chip} from '../../components/Atoms';
+import {Gap, Trash} from '../../assets/Icon';
+import {styles} from './style';
+import {widthPercentage} from '../../utils/Responsive';
 
 const CartScreen = () => {
-  const cartItems = useSelector((state: RootState) => state.persisted.cart.items);
+  const cartItems = useSelector(
+    (state: RootState) => state.persisted.cart.items,
+  );
   const dispatch = useDispatch();
 
   return (
-    <View>
-      <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 10 }}>Your Cart</Text>
+    <SafeAreaView style={{flex: 1}}>
+      <Header headerTitle="My Cart" back />
 
       <FlatList
         data={cartItems}
-        keyExtractor={(item) => item.product.id.toString()}
-        renderItem={({ item }) => (
-          <View style={{ padding: 10, borderBottomWidth: 1 }}>
-            <Text>{item.product.title}</Text>
-            <Text>${item.product.price}</Text>
-            <Button title="Remove" onPress={() => dispatch(removeFromCart(item.product.id))} />
+        keyExtractor={item => item.product.id.toString()}
+        renderItem={({item}) => (
+          <View style={styles.cartGroup}>
+            <View style={styles.cartTitleGroup}>
+              <Image
+                source={{uri: item.product.thumbnail}}
+                style={styles.cartImage}
+              />
+              <View>
+                <Text style={styles.cartTitle}>{item.product.title}</Text>
+                <Text>${item.product.price}</Text>
+              </View>
+            </View>
+            <View style={styles.buttonGroup}>
+              <Chip
+                text={<Trash />}
+                width={30}
+                height={30}
+                onPress={() => dispatch(removeFromCart(item.product.id))}
+              />
+              <Gap width={widthPercentage(2)} />
+              <Chip
+                text="-"
+                border
+                width={30}
+                height={30}
+                onPress={() => dispatch(decreaseCart(item.product.id))}
+              />
+              <Text style={styles.counter}>{item.qty}</Text>
+              <Chip
+                text="+"
+                border
+                width={30}
+                height={30}
+                onPress={() => dispatch(addToCart(item.product))}
+              />
+            </View>
           </View>
         )}
       />
 
-      {cartItems.length > 0 && (
+      {/* {cartItems.length > 0 && (
         <Button title="Clear Cart" onPress={() => dispatch(clearCart())} />
-      )}
-    </View>
+      )} */}
+    </SafeAreaView>
   );
 };
 

@@ -4,7 +4,6 @@ import {
   heightPercentage,
   widthPercentage,
 } from '../../../utils/Responsive';
-import {COLORS} from '../../../constant';
 
 type Style = {
   container: ViewStyle;
