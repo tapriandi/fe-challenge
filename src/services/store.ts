@@ -22,7 +22,8 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }),
+    })
+    .concat(productApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
