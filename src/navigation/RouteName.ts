@@ -1,4 +1,5 @@
 enum RouteName {
+  Cart = 'Cart',
   Product = 'Product',
 }
 

@@ -14,7 +14,7 @@ import persistedReducer from './persist';
 
 export const store = configureStore({
   reducer: {
-    persistedReducer,
+    persisted: persistedReducer,
     [productApi.reducerPath]: productApi.reducer,
   },
   middleware: defaultMiddleware =>
@@ -22,13 +22,11 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    })
-    .concat(productApi.middleware),
+    }).concat(productApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
 
-// Use throughout your app instead of plain `useDispatch` and `useSelector`
 export type AppDispatch = typeof store.dispatch;
 export const useAppDispatch: () => AppDispatch = useDispatch;
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
