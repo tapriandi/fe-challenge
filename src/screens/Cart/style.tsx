@@ -13,12 +13,18 @@ type Style = {
 
 export const styles = StyleSheet.create<Style>({
   cartGroup: {
-    borderWidth: 1,
     borderRadius: 10,
     marginHorizontal: widthPercentage(3),
     marginBottom: widthPercentage(3),
     padding: widthPercentage(2),
-    borderColor: COLORS.BORDER,
+    backgroundColor: COLORS.WHITE,
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 1.51,
+    elevation: 2,
   },
   cartTitleGroup: {
     flexDirection: 'row',

@@ -2,7 +2,6 @@ import React from 'react';
 import {
   FlatList,
   StatusBar,
-  Text,
   Image,
   View,
   SafeAreaView,
@@ -15,6 +14,11 @@ import {Header} from '../../components/Molecules';
 import {Product} from '../../services/Product/types';
 import {addToCart} from '../../services/Cart/cartSlice';
 import {cartSelectors} from '../../services/Cart/cartSelector';
+import {styles} from './style';
+import {widthPercentage} from '../../utils/Responsive';
+import {Text} from '../../components/Atoms';
+import {COLORS} from '../../constant';
+import {Gap, Star} from '../../assets/Icon';
 
 const ProductScreen = () => {
   const {data: products, isLoading, error} = useGetProductsQuery();
@@ -37,16 +41,26 @@ const ProductScreen = () => {
         <Header headerTitle="Products" cartIcon cartCount={cartCount} />
         <FlatList
           data={products || productList}
+          numColumns={2}
+          contentContainerStyle={{margin: widthPercentage(2)}}
+          columnWrapperStyle={{justifyContent: 'space-between'}}
           keyExtractor={item => item.id.toString()}
           renderItem={({item}) => (
-            <TouchableOpacity onPress={() => handleAddToCart(item)}>
-              <View style={{padding: 10, borderBottomWidth: 1}}>
-                <Image
-                  source={{uri: item.thumbnail}}
-                  style={{width: 50, height: 50}}
-                />
-                <Text>{item.title}</Text>
-                <Text>${item.price}</Text>
+            <TouchableOpacity
+              onPress={() => handleAddToCart(item)}
+              style={styles.cardProduct}>
+              <Image
+                source={{uri: item.thumbnail}}
+                style={styles.imageProduct}
+              />
+              <Text>{item.title}</Text>
+              <Gap height={widthPercentage(1)} />
+              <View style={[styles.cardPrices, styles.rows]}>
+                <Text color={COLORS.GRAY}>${item.price}</Text>
+                <View style={styles.rows}>
+                  <Star />
+                  <Text color={COLORS.GRAY}>{item.rating}</Text>
+                </View>
               </View>
             </TouchableOpacity>
           )}

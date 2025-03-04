@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Svg, {Path, SvgProps} from 'react-native-svg';
 
-const Cart = ({width = 32, height = 32}: SvgProps) => {
+const Cart = ({width = 20, height = 20}: SvgProps) => {
   return (
     <Svg
       fill="#000000"

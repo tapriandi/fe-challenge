@@ -35,14 +35,14 @@ export const styles = StyleSheet.create<Style>({
     right: -10,
     backgroundColor: 'red',
     borderRadius: 10,
-    width: 20,
-    height: 20,
+    width: 16,
+    height: 16,
     justifyContent: 'center',
     alignItems: 'center',
   },
   cartBadgeText: {
     color: 'white',
-    fontSize: 12,
+    fontSize: FPercentage(2.2),
     fontWeight: 'bold',
   },
 });

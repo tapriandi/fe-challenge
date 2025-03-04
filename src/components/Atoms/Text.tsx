@@ -6,6 +6,7 @@ interface TextProps {
   style?: TextStyle;
   size?: number;
   bold?: boolean;
+  color?: string;
   children: ReactNode;
   numberOfLines?: number;
   ellipsizeMode?: 'head' | 'tail' | 'middle' | 'clip' | undefined;
@@ -15,6 +16,7 @@ const Text: FC<TextProps> = ({
   style,
   size,
   bold,
+  color,
   children,
   numberOfLines,
   ellipsizeMode,
@@ -33,7 +35,7 @@ const Text: FC<TextProps> = ({
       {...rest}
       ellipsizeMode={ellipsizeMode}
       numberOfLines={numberOfLines}
-      style={[textStyle, style]}>
+      style={[textStyle, style, {color}]}>
       {children}
     </RNText>
   );
