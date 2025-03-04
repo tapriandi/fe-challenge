@@ -14,12 +14,14 @@ import {productSelectors} from '../../services/Product/productSelector';
 import {Header} from '../../components/Molecules';
 import {Product} from '../../services/Product/types';
 import {addToCart} from '../../services/Cart/cartSlice';
+import {cartSelectors} from '../../services/Cart/cartSelector';
 
 const ProductScreen = () => {
   const {data: products, isLoading, error} = useGetProductsQuery();
   const dispatch = useDispatch();
 
   const productList = useSelector(productSelectors.listProductState);
+  const cartCount = useSelector(cartSelectors.getCartCount);
 
   const handleAddToCart = (product: Product) => {
     dispatch(addToCart(product));
@@ -32,7 +34,7 @@ const ProductScreen = () => {
     <SafeAreaView style={{flex: 1}}>
       <StatusBar barStyle={'dark-content'} />
       <View>
-        <Header headerTitle="Products" />
+        <Header headerTitle="Products" cartIcon cartCount={cartCount} />
         <FlatList
           data={products || productList}
           keyExtractor={item => item.id.toString()}
