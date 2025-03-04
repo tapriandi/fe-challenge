@@ -15,10 +15,11 @@ import {Product} from '../../services/Product/types';
 import {addToCart} from '../../services/Cart/cartSlice';
 import {cartSelectors} from '../../services/Cart/cartSelector';
 import {styles} from './style';
-import {widthPercentage} from '../../utils/Responsive';
+import {FPercentage, widthPercentage} from '../../utils/Responsive';
 import {Text} from '../../components/Atoms';
 import {COLORS} from '../../constant';
 import {Gap, Star} from '../../assets/Icon';
+import {calculateDiscountedPrice} from '../../utils/common';
 
 const ProductScreen = () => {
   const {data: products, isLoading, error} = useGetProductsQuery();
@@ -56,7 +57,20 @@ const ProductScreen = () => {
               <Text>{item.title}</Text>
               <Gap height={widthPercentage(1)} />
               <View style={[styles.cardPrices, styles.rows]}>
-                <Text color={COLORS.GRAY}>${item.price}</Text>
+                <View style={styles.rows}>
+                  <Text color={COLORS.GREEN}>
+                    $
+                    {calculateDiscountedPrice(
+                      item.price,
+                      item.discountPercentage,
+                    )}
+                  </Text>
+                  <Gap width={4} />
+                  <Text color={COLORS.GRAY} lineThrough size={FPercentage(3)}>
+                    ${item.price}
+                  </Text>
+                </View>
+
                 <View style={styles.rows}>
                   <Star />
                   <Text color={COLORS.GRAY}>{item.rating}</Text>

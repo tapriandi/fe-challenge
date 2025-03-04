@@ -8,6 +8,7 @@ interface TextProps {
   bold?: boolean;
   color?: string;
   children: ReactNode;
+  lineThrough?: boolean;
   numberOfLines?: number;
   ellipsizeMode?: 'head' | 'tail' | 'middle' | 'clip' | undefined;
 }
@@ -18,6 +19,7 @@ const Text: FC<TextProps> = ({
   bold,
   color,
   children,
+  lineThrough,
   numberOfLines,
   ellipsizeMode,
   ...rest
@@ -25,6 +27,9 @@ const Text: FC<TextProps> = ({
   const textStyle = useMemo<TextStyle>(
     () => ({
       fontSize: size,
+      color,
+      textDecorationStyle: 'solid',
+      textDecorationLine: lineThrough ? 'line-through' : 'none',
       ...(bold && {fontWeight: 'bold', fontFamily: FONTS.SEMI_BOLD}),
     }),
     [size, bold],
@@ -35,7 +40,7 @@ const Text: FC<TextProps> = ({
       {...rest}
       ellipsizeMode={ellipsizeMode}
       numberOfLines={numberOfLines}
-      style={[textStyle, style, {color}]}>
+      style={[textStyle, style]}>
       {children}
     </RNText>
   );
