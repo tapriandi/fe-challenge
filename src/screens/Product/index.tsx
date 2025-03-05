@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   FlatList,
   StatusBar,
@@ -8,11 +8,10 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {useGetProductsQuery} from '../../services/Product/productApi';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {productSelectors} from '../../services/Product/productSelector';
-import {Header} from '../../components/Molecules';
+import {Header, TabCategory} from '../../components/Molecules';
 import {Product} from '../../services/Product/types';
-import {addToCart} from '../../services/Cart/cartSlice';
 import {cartSelectors} from '../../services/Cart/cartSelector';
 import {styles} from './style';
 import {FPercentage, widthPercentage} from '../../utils/Responsive';
@@ -40,6 +39,17 @@ const ProductScreen = () => {
     navigation.navigate(RouteName.ProductDetail, {product});
   };
 
+  // tab menu category
+  const [selectedCategory, setSelectedCategory] = useState<string | null>('All');
+  const categories = [
+    'All',
+    ...(products ? [...new Set(products.map(p => p.category))] : []),
+  ];
+  const filteredProducts =
+    selectedCategory && selectedCategory !== 'All'
+      ? products?.filter(p => p.category === selectedCategory)
+      : products || productList;
+
   if (isLoading) return <Text>Loading...</Text>;
   if (error) return <Text>Error fetching products</Text>;
 
@@ -48,8 +58,14 @@ const ProductScreen = () => {
       <StatusBar barStyle={'dark-content'} />
       <View>
         <Header headerTitle="Products" cartIcon cartCount={cartCount} />
+        <TabCategory
+          data={categories}
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+        />
+
         <FlatList
-          data={products || productList}
+          data={filteredProducts}
           numColumns={2}
           contentContainerStyle={{margin: widthPercentage(2)}}
           columnWrapperStyle={{justifyContent: 'space-between'}}

@@ -41,8 +41,7 @@ const CartScreen = () => {
             <View style={styles.buttonGroup}>
               <Chip
                 text={<Trash />}
-                width={30}
-                height={30}
+                size='large'
                 onPress={() => dispatch(removeFromCart(item.product.id))}
               />
               <Gap width={widthPercentage(2)} />
@@ -50,7 +49,6 @@ const CartScreen = () => {
                 text="-"
                 border
                 width={30}
-                height={30}
                 onPress={() => dispatch(decreaseCart(item.product.id))}
               />
               <Text style={styles.counter}>{item.qty}</Text>
@@ -58,7 +56,6 @@ const CartScreen = () => {
                 text="+"
                 border
                 width={30}
-                height={30}
                 onPress={() => dispatch(addToCart(item.product))}
               />
             </View>

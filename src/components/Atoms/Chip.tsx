@@ -1,10 +1,13 @@
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import Text from './Text';
 import {COLORS} from '../../constant';
-import { ReactNode } from 'react';
+import {ReactNode, useMemo} from 'react';
+import {widthPercentage} from '../../utils/Responsive';
 
 interface ChipProps {
   text: string | ReactNode;
+  size?: 'small' | 'medium' | 'large';
+  isActive?: boolean;
   width?: number;
   height?: number;
   fontSize?: number;
@@ -16,23 +19,47 @@ interface ChipProps {
 
 const Chip = ({
   text,
+  size = 'small',
   width,
   height,
   fontSize,
+  isActive = false,
   border = false,
-  backgroundColor = 'transparent',
-  color = 'black',
+  backgroundColor,
+  color,
   onPress,
 }: ChipProps) => {
+  const sizeStyles = useMemo(() => {
+    return {
+      small: {height: 30, fontSize: 12, paddingHorizontal: 10},
+      medium: {height: 40, fontSize: 14, paddingHorizontal: 15},
+      large: {height: 50, fontSize: 16, paddingHorizontal: 20},
+    }[size];
+  }, [size]);
+
+  const chipStyles = useMemo(
+    () => ({
+      height: sizeStyles.height,
+      backgroundColor: isActive
+      ? backgroundColor || COLORS.GREEN
+      : backgroundColor || COLORS.WHITE,
+      borderColor: isActive ? COLORS.WHITE : COLORS.BORDER,
+      width,
+    }),
+    [sizeStyles, isActive, backgroundColor],
+  );
+
+  const textColor = useMemo(
+    () => (isActive ? color || COLORS.WHITE : color || COLORS.BLACK),
+    [isActive, color],
+  );
+
   return (
     <TouchableOpacity
-      style={[styles.chip, border && styles.border, {width, height, backgroundColor}]}
+      style={[styles.chip, border && styles.border, chipStyles]}
       onPress={onPress}
       activeOpacity={0.8}>
-      <Text
-        style={{...styles.text, fontSize, color}}>
-        {text}
-      </Text>
+      <Text style={{...styles.text, fontSize, color: textColor}}>{text}</Text>
     </TouchableOpacity>
   );
 };
@@ -42,6 +69,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    marginRight: widthPercentage(2),
   },
   border: {
     borderRadius: 20,
@@ -50,6 +78,8 @@ const styles = StyleSheet.create({
   },
   text: {
     fontWeight: 'bold',
+    textTransform: 'capitalize',
+    paddingHorizontal: widthPercentage(3),
   },
 });
 
