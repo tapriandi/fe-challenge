@@ -1,5 +1,21 @@
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
+# UI
+
+## Screen 1: Product List
+<img src="./product-screen.png" alt="Alt Text" width="400">
+
+
+## Screen 2: Product Detail
+<img src="./product-detail.png" alt="Alt Text" width="400">
+
+
+
+## Screen 3: Product Checkout
+<img src="./product-checkout.png" alt="Alt Text" width="400">
+
+
+
 # Getting Started
 
 > **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
